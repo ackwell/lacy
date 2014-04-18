@@ -15,6 +15,10 @@ func yellBack(bot *lacy.Lacy, event lacy.Event) {
 	bot.Out <- strings.ToUpper(payload["message"])
 }
 
+func sayHello(bot *lacy.Lacy, event lacy.Event) {
+	bot.Out <- "Your friendly neighbourhood Lacybot says hello."
+}
+
 func main() {
 	bot, err := lacy.New(lacy.Settings{"bot", "password", "http://localhost:8080"})
 	if err != nil {
@@ -22,6 +26,7 @@ func main() {
 	}
 	bot.Register([]string{"*"}, echo)
 	bot.Register([]string{"mesg:out"}, yellBack)
+	bot.Register([]string{"auth:succeed"}, sayHello)
 	go bot.Run()
 	<-bot.Quit
 }
