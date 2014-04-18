@@ -12,6 +12,7 @@ type Plugin func(*Lacy, Event)
 // Settings allows easy reuse of user/password/origin between bot sessions.
 type Settings struct {
 	Username, Password, Origin string
+	Plaintext bool
 }
 
 type Lacy struct {
@@ -74,6 +75,12 @@ func (bot *Lacy) connect(ns *socketio.NameSpace) {
 
 func (bot *Lacy) connReady(ns *socketio.NameSpace, id string) {
 	bot.UserId = id
+	if bot.settings.Plaintext {
+		bot.client.Emit("opts:set", map[string]interface{}{
+			"option": "plaintext",
+			"value": true,
+		})
+	}
 }
 
 func (bot *Lacy) authFail(ns *socketio.NameSpace) {

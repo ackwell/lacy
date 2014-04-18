@@ -20,7 +20,12 @@ func sayHello(bot *lacy.Lacy, event lacy.Event) {
 }
 
 func main() {
-	bot, err := lacy.New(lacy.Settings{"bot", "password", "http://localhost:8080"})
+	bot, err := lacy.New(lacy.Settings{
+		Username: "bot",
+		Password: "password",
+		Origin: "http://localhost:8080",
+		Plaintext: true,
+	})
 	if err != nil {
 		panic(err) // programming
 	}
